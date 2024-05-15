@@ -16,23 +16,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $user = User::factory()->create([
+        User::factory()->create([
             'id' => '1',
             'name' => 'Boris',
             'email' => 'test@example.com',
             'password' => bcrypt('123123123'),
             'email_verified_at' => time()
         ]);
+        User::factory()->create([
+            'id' => 2,
+            'name' => 'John Smith',
+            'email' => 'john@example.com',
+            'password' => bcrypt('123.321A'),
+            'email_verified_at' => time()
+        ]);
+
         Project::factory()
             ->count(30)
-            ->hasTasks(30, [
-                'assigned_user_id' => 1,
-                'created_by' => 1,
-                'updated_by' => 1
-            ])
-            ->create([
-                'created_by' => 1,
-                'updated_by' => 1
-            ]);
+            ->hasTasks(30)
+            ->create();
     }
 }
