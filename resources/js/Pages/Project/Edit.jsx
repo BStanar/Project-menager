@@ -2,20 +2,20 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import InputField from "@/Components/InputField";
 
-export default function Create({ auth,project }) {
-  const { data, setData, put,  errors } = useForm({
+export default function Edit({ auth, project }) {
+  const { data, setData, put, errors } = useForm({
     image: "",
     name: project.name || "",
-    status: project.status || "",
+    status: project.status || "", // Ensure status is correctly initialized
     description: project.description || "",
     due_date: project.due_date || "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-
     put(route("project.update", project.id));
   };
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -27,9 +27,11 @@ export default function Create({ auth,project }) {
         </div>
       }
     >
-      <Head title="Projects"></Head>
+      <Head title="Projects"/>
 
       <pre className="text-white">{JSON.stringify(project)}</pre>
+      <br/>
+      <pre className="text-white">{JSON.stringify(data)}</pre>
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -57,7 +59,7 @@ export default function Create({ auth,project }) {
                   id="project_name"
                   type="text"
                   name="name"
-                  value={project.name}
+                  value={data.name}
                   className="mt-1 block w-full"
                   onChange={(e) => setData("name", e.target.value)}
                   label="Project name"
@@ -87,8 +89,8 @@ export default function Create({ auth,project }) {
                   id="project_status"
                   type="select"
                   name="status"
+                  value={data.status} // Ensure the status value is correctly set
                   className="mt-1 block w-full"
-                  value={status}
                   onChange={(e) => setData("status", e.target.value)}
                   label="Project Status"
                   error={errors.status}
